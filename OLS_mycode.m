@@ -22,4 +22,5 @@ legend("Data","Fitted Line")
 xlabel("SAT")
 ylabel("GPA")
 
+print -dpng Result_using_MyOLS 
 
