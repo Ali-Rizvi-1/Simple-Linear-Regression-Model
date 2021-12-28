@@ -1,52 +1,35 @@
 import numpy as np
-def linear_model(x,y):
-    # print("X is", x)
-    print("Y is", y[1:5])
-    pass
-
-
 import pandas as pd
-data = pd.read_csv('LinearRegressionData.csv')
+def linear_model(df1_x,df1_y):
 
-#define response variable
-y = data[['GPA']]
-y = np.array(y)
+    x=df1_x.iloc[:,0]
+    x=pd.to_numeric(x)
 
-#define explanatory variable
-x = data[['SAT']]
-x = np.array(x)
+    y=df1_y.iloc[:,0]
+    y = pd.to_numeric(y)
 
-# multiplication = np.multiply(x.T, x)
-res = np.outer(x.T, x) #np.dot(x.T,x)
+    df1_x_mean=np.mean(df1_x)
+    df1_y_mean=np.mean(df1_y)
 
-inverse = np.linalg.pinv(res)
-# print(inverse)
-res2 = np.outer(x.T, y)
+    deviation_x=[]
+    for i in x:
+        deviation_x.append(i-df1_x_mean)
 
-final_result = np.outer(res,res2)
+    deviation_y=[]
+    for i in y:
+        deviation_y.append(i-df1_y_mean)
 
-# print(x)
-# print(len(x))
-# print(x.T)
-# print(len(x.T))
-# # print(y.T)
-# print(res)
-# print(len(res))
-# print(len(res[0]))
-# # for row in res:
-# #     print(row)
-# print(inverse)
-# print(res2)
+    product_deviation=np.array(deviation_x)*np.array(deviation_y) 
 
-print(final_result)
-print(len(final_result))
+    Sum_product_deviation=np.sum(product_deviation) 
 
-# x = np.array([1,2,3,4])
-# print(x)
-# # linear_model(x,x)
-# # y = np.transpose(x)
-# print(x.T)
+    Sq_x_deviation=np.array(deviation_x)**2 
 
-# a = np.array([5,4])[np.newaxis]
-# print(a)
-# print(a.T)
+    Sum_Sq_x_deviation=np.sum(Sq_x_deviation) 
+
+    Regression_coefficient=Sum_product_deviation/Sum_Sq_x_deviation
+    print(Regression_coefficient)
+    intercept=float(df1_y_mean)-(Regression_coefficient*float(df1_x_mean)) 
+    print(intercept)
+
+    return [Regression_coefficient, intercept]
