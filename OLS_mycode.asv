@@ -9,7 +9,9 @@ x = T.SAT; % SAT scores data
 one = ones(84,1);
 X = [x one];
 
-parameters = pinv(X'*X)*(X'*y); % (X^T * X)^-1 * X^T * y
+temp = pinv(X'*X);
+temp2 = X'*y;
+parameters = temp*temp2; % (X^T * X)^-1 * X^T * y
 
 scatter(x,y); hold on;
 
